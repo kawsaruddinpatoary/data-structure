@@ -94,10 +94,18 @@ int count(Node *root){
     return left+right+1;
 }
 
+int sum(Node *root){
+    if(root==NULL){
+        return 0;
+    }
+    int left = sum(root->left);
+    int right = sum(root->right);
+    return left + right + root->data;
+}
 
 int main(){
     vector<int> preorder = {1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
     levelOrder(root);
-    cout << count(root) << endl;
+    cout << sum(root) << endl;
 }
