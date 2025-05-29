@@ -57,6 +57,41 @@ bool search(Node *root, int key){
     }
 }
 
+Node *inOrderSuccessor(Node *root){
+    while(root!=NULL && root->left != NULL){
+        root = root->left;
+    }
+    return root;
+}
+
+Node *deleteNode(Node *root, int key){
+    if(root==NULL){
+        return NULL;
+    }
+    if(key < root->data){
+        root->left = deleteNode(root->left, key);
+    }else if(key > root->data){
+        root->right = deleteNode(root->right, key);
+    }else{
+        if(root->left == NULL){
+            Node *temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if(root->right == NULL){
+            Node *temp = root->left;
+            delete root;
+            return temp;
+        }else{
+            Node *successor = inOrderSuccessor(root->right);
+            root->data = successor->data;
+            root->right = deleteNode(root->right, successor->data);
+        }
+    }
+
+    return root;
+}
+
 
 int main(){
     vector<int> arr = {3, 2, 1, 5, 6, 4};
@@ -64,10 +99,7 @@ int main(){
     inOrder(root);
     cout << endl;
 
-    if(search(root, 3)){
-        cout << "Found." << endl;
-    }else{
-        cout << "Not found." << endl;
-    }
+    deleteNode(root, 2);
+    inOrder(root);
     
 }
