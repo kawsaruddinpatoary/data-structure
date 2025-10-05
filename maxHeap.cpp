@@ -12,7 +12,20 @@ void insert(vector<int>& arr, int n){
     arr[i] = temp;
 }
 
-int deleteMax(vector<int>& arr, int n){
+void heapify(vector<int>& arr, int n, int i){
+    int temp = arr[i];
+    int j=i*2;
+    if(i*2>n) return;
+    if(j<n && arr[j+1]>arr[j]){
+        j=j+1;
+    }
+    if(temp<arr[j]){
+        swap(arr[i], arr[j]);
+        heapify(arr, n, j);
+    }
+}
+
+void deleteMax(vector<int>& arr, int n){
     int val = arr[1];
     int x = arr[n];
     arr[1] = x;
@@ -28,13 +41,13 @@ int deleteMax(vector<int>& arr, int n){
             break;
         }
     }
-    return val;
 }
 
 int main(){
-    vector<int> heap({0, 30, 35, 15, 18, 40, 20, 25});
-    for(int i=2; i<7; i++){
-        insert(heap, i);
+    vector<int> heap({0, 11, 7, 9, 45, 8, 34, 90});
+    int n=7;
+    for(int i=n/2; i>=1; i--){
+        heapify(heap, n, i);
     }
     for(int i=7; i>1; i--){
         deleteMax(heap, i);
